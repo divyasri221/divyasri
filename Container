@@ -1,0 +1,56 @@
+AIM: Develop a simple containerized application using Docker.
+REQUIREMENT : CLOUD ACCOUNT 
+ AWS OR AZURE OR GCP
+1. Create a new directory for your application, and create a file named app.py with 
+the following contents:
+from flask import Flask
+app = Flask(__name__)
+@app.route('/')
+def hello_world():
+ return 'Hello, World!'
+if __name__ == '__main__':
+ app.run(debug=True, host='0.0.0.0')
+This is a very simple Flask web application that just displays a message when you 
+access the root URL.
+2. Next, create a file named Dockerfile in the same directory, with the following 
+contents:
+FROM python:3.9-alpine
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+EXPOSE 5000
+CMD ["python", "app.py"
+This Dockerfile defines a new image based on the python:3.9-alpine base 
+image. It sets the working directory to /app, copies the requirements.txt file into 
+the container and installs the dependencies using pip. Then, it copies the application code into the container, exposes port 5000, and sets the command to 
+
+run the app.py file using the python interpreter.
+
+3. Create a file named requirements.txt with the following contents:
+
+Flask==2.0.2
+
+This file lists the dependencies that our application needs to run.
+
+4. Finally, build the Docker image using the following command:
+
+docker build -t myapp .
+
+This command will build a Docker image based on the Dockerfile in the current 
+
+directory and tag it with the name myapp.
+
+5. Run the container using the following command:
+
+docker run -p 5000:5000 myapp
+
+This will start the container and map port 5000 on the container to port 5000 on 
+
+the host machine. You can now access the application by visiting 
+
+http://localhost:5000 in your web browser.
+
+That's it! You now have a simple containerized web application running using 
+
+Docker.
